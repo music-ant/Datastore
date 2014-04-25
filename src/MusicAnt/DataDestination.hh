@@ -2,6 +2,8 @@
 
 namespace MusicAnt;
 
+use bool;
+
 interface DataDestination {
 
     public function create(Record $record): bool;

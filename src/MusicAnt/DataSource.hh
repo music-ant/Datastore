@@ -2,6 +2,8 @@
 
 namespace MusicAnt;
 
+use string;
+
 interface DataSource {
 
     public function get($primaryKey): Record;

@@ -2,6 +2,6 @@
 
 namespace MusicAnt;
 
-interface DataStore<T as Record> extends DataSource<T>, DataDestination<T> {
+interface DataStore extends DataSource, DataDestination {
 
 }

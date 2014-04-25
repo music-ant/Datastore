@@ -4,6 +4,8 @@ namespace MusicAnt\DataSource;
 
 use MusicAnt\Record;
 
+use string;
+
 trait SqlDataSourceTrait {
 
     <<Override>> public function get($primaryKey): Record {

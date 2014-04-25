@@ -1,3 +1,0 @@
-<?hh
-
-namespace MusicAnt\DataSource;

@@ -2,6 +2,8 @@
 
 namespace MusicAnt;
 
+use string;
+
 interface Record {
 
     public function getId(): mixed;
