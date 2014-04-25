@@ -1,0 +1,12 @@
+<?hh
+
+namespace MusicAnt;
+
+interface Record {
+
+    public function getId(): mixed;
+
+    public function getFilterableAttributes(): Set<string>;
+
+    public function getOrderableAttributes(): Set<string>;
+}

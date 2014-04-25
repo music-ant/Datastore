@@ -1,0 +1,16 @@
+{
+    "name": "music-ant/datastore",
+    "license": "MPL 2.0",
+    "require": {
+    },
+    "require-dev": {
+        "behat/behat": "2.4.*@stable",
+        "phpspec/phpspec": "2.0.*@dev",
+        "phpunit/phpunit": "3.7.35"
+    },
+    "minimum-stability": "alpha",
+    "config": {
+        "bin-dir": "vendor/bin/"
+    },
+    "autoload": {"psr-0": {"": "src"}}
+}
