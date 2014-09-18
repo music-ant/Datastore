@@ -14,7 +14,6 @@ class SqlDataSource implements \MusicAnt\DataSource {
         $this->connection = $connection;
         $this->table = $table;
         $this->recordClass = $recordClass;
-        $this->getQuery = "SELECT * FROM $table WHERE id = :id;";
     }
 
 

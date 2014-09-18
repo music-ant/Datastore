@@ -8,7 +8,7 @@ interface DataSource {
 
     public function get($primaryKey);
 
-    public function find(array $searchKeys);
+    public function find($searchKeys);
 
     public function findOrderedBy(
         array $searchKeys, array $orderAttributes

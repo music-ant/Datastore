@@ -31,6 +31,49 @@ class SqlDataSourceSpec extends ObjectBehavior
 
         $this->get($primaryKey)->shouldReturn($expectedObject);
     }
+
+    function it_finds_all_records_with_no_searchCondition(\Pdo $connection, \PDOStatement $sqlResult) {
+        $expectedObjects = array(true, false);
+
+        $connection->prepare("SELECT * FROM Testtable ;")
+                   ->willReturn($sqlResult);
+
+        $sqlResult->execute(array())->shouldBeCalled();
+
+        $sqlResult->fetchObject("\MusicAnt\StringRecord")->willReturn($expectedObjects);
+
+        $this->find(null)->shouldReturn($expectedObjects);
+    }
+
+    function it_finds_all_records_with_empty_array_as_searchCondition(\Pdo $connection, \PDOStatement $sqlResult) {
+        $expectedObjects = array(true, false);
+
+        $connection->prepare("SELECT * FROM Testtable ;")
+                   ->willReturn($sqlResult);
+
+        $sqlResult->execute(array())->shouldBeCalled();
+
+        $sqlResult->fetchObject("\MusicAnt\StringRecord")->willReturn($expectedObjects);
+
+        $this->find(array())->shouldReturn($expectedObjects);
+    }
+
+    function it_finds_multiple_records_by_name(\Pdo $connection, \PDOStatement $sqlResult)
+    {
+        $searchForName = "oso";
+        $expectedObject = array(
+            new StringRecord(1, $searchForName),
+            new StringRecord(1, $searchForName)
+        );
+
+        $connection->prepare("SELECT * FROM Testtable WHERE `name` = :name;")
+                   ->willReturn($sqlResult);
+
+        $sqlResult->execute(array('name' => $searchForName))->shouldBeCalled();
+        $sqlResult->fetchObject("\MusicAnt\StringRecord")->willReturn($expectedObject);
+
+        $this->find(array('name' => $searchForName))->shouldReturn($expectedObject);
+    }
 }
 
 class StringRecord implements \MusicAnt\Record{
