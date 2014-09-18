@@ -1,27 +1,25 @@
-<?hh
+<?php
 
 namespace MusicAnt\DataSource;
 
 use MusicAnt\Record;
 
-use string;
-
 trait SqlDataSourceTrait {
 
-    <<Override>> public function get($primaryKey): Record {
+    public function get($primaryKey) {
         $query = $this->connection->prepare($this->getQuery);
         $query->execute(array('id' => $primaryKey));
         return $query->fetchObject($this->recordClass);
     }
 
-    public function find(Set<string> $searchKeys): Map<Record> {
-        return new Map<Record>;
+    public function find(array $searchKeys) {
+        return array();
     }
 
     public function findOrderedBy(
-        Set<string> $searchKeys, Vector<string> $orderAttributes
-    ): Map<Record> {
-        return new Map<Record>;
+        array $searchKeys, array $orderAttributes
+    ) {
+        return array();
     }
 
 }
