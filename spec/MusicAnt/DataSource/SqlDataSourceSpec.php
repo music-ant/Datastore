@@ -1,4 +1,4 @@
-<?hh
+<?php
 
 namespace spec\MusicAnt\DataSource;
 
@@ -34,9 +34,12 @@ class SqlDataSourceSpec extends ObjectBehavior
 }
 
 class StringRecord implements \MusicAnt\Record{
+    public $id;
+    public $name;
 
-    public function __construct(public int $id, public string $name) {
-
+    public function __construct($id, $name) {
+        $this->id = $id;
+        $this->name = $name;
     }
 
     public function getId() {
@@ -44,11 +47,11 @@ class StringRecord implements \MusicAnt\Record{
     }
 
     public function getFilterableAttributes() {
-        return new Set<string>();
+        return array();
     }
 
     public function getOrderableAttributes() {
-        return new Set<string>();
+        return array();
     }
 
 }

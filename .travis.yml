@@ -1,9 +1,8 @@
 language: php
 
-php: [hhvm]
+php: [5.4, 5.5, hhvm]
 
 before_script:
-  - uname -a
   - composer selfupdate
   - export COMPOSER_ROOT_VERSION=2.0.0-RC3
   - composer install --prefer-source
