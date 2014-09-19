@@ -10,8 +10,9 @@ class SqlDataSourceSpec extends ObjectBehavior
 
     function let(\Pdo $connection)
     {
+        StringRecord::setFilterableAttributes(array('name'));
         $this->beConstructedWith($connection, 'Testtable',
-                '\MusicAnt\StringRecord');
+                '\spec\MusicAnt\DataSource\StringRecord');
     }
 
     function it_is_initializable()
@@ -27,9 +28,27 @@ class SqlDataSourceSpec extends ObjectBehavior
                    ->willReturn($sqlResult);
 
         $sqlResult->execute(array('id' => $primaryKey))->shouldBeCalled();
-        $sqlResult->fetchObject("\MusicAnt\StringRecord")->willReturn($expectedObject);
+        $sqlResult->fetchObject("\spec\MusicAnt\DataSource\StringRecord")->willReturn($expectedObject);
 
         $this->get($primaryKey)->shouldReturn($expectedObject);
+    }
+
+    function it_will_throw_an_Exception_when_search_for_a_nonfilterable_attribute(\Pdo $connection, \PDOStatement $sqlResult) {
+        StringRecord::setFilterableAttributes(array());
+
+        $connection->prepare(Argument::any())
+                   ->willReturn($sqlResult);
+
+        $this->shouldThrow("\Exception")->duringFind(array('name'=>'foo'));
+    }
+
+    function it_will_not_throw_an_Exception_when_search_for_a_nonfilterable_attribute_and_accept_slow_queries(\Pdo $connection, \PDOStatement $sqlResult) {
+        StringRecord::setFilterableAttributes(array());
+
+        $connection->prepare(Argument::any())
+                   ->willReturn($sqlResult);
+
+        $this->shouldNotThrow("\Exception")->duringFind(array('name'=>'foo'), true);
     }
 
     function it_finds_all_records_with_no_searchCondition(\Pdo $connection, \PDOStatement $sqlResult) {
@@ -40,7 +59,7 @@ class SqlDataSourceSpec extends ObjectBehavior
 
         $sqlResult->execute(array())->shouldBeCalled();
 
-        $sqlResult->fetchObject("\MusicAnt\StringRecord")->willReturn($expectedObjects);
+        $sqlResult->fetchObject("\spec\MusicAnt\DataSource\StringRecord")->willReturn($expectedObjects);
 
         $this->find(null)->shouldReturn($expectedObjects);
     }
@@ -53,7 +72,7 @@ class SqlDataSourceSpec extends ObjectBehavior
 
         $sqlResult->execute(array())->shouldBeCalled();
 
-        $sqlResult->fetchObject("\MusicAnt\StringRecord")->willReturn($expectedObjects);
+        $sqlResult->fetchObject("\spec\MusicAnt\DataSource\StringRecord")->willReturn($expectedObjects);
 
         $this->find(array())->shouldReturn($expectedObjects);
     }
@@ -70,7 +89,7 @@ class SqlDataSourceSpec extends ObjectBehavior
                    ->willReturn($sqlResult);
 
         $sqlResult->execute(array('name' => $searchForName))->shouldBeCalled();
-        $sqlResult->fetchObject("\MusicAnt\StringRecord")->willReturn($expectedObject);
+        $sqlResult->fetchObject("\spec\MusicAnt\DataSource\StringRecord")->willReturn($expectedObject);
 
         $this->find(array('name' => $searchForName))->shouldReturn($expectedObject);
     }
@@ -79,6 +98,7 @@ class SqlDataSourceSpec extends ObjectBehavior
 class StringRecord implements \MusicAnt\Record{
     public $id;
     public $name;
+    public static  $filterableAttributes;
 
     public function __construct($id, $name) {
         $this->id = $id;
@@ -89,11 +109,14 @@ class StringRecord implements \MusicAnt\Record{
         return $this->id;
     }
 
-    public function getFilterableAttributes() {
-        return array();
+    public static function setFilterableAttributes($attributes) {
+        self::$filterableAttributes = $attributes;
+    }
+    public static function getFilterableAttributes() {
+        return self::$filterableAttributes;
     }
 
-    public function getOrderableAttributes() {
+    public static function getOrderableAttributes() {
         return array();
     }
 

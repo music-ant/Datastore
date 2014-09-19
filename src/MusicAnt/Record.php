@@ -8,7 +8,7 @@ interface Record {
 
     public function getId();
 
-    public function getFilterableAttributes();
+    public static function getFilterableAttributes();
 
-    public function getOrderableAttributes();
+    public static function getOrderableAttributes();
 }
