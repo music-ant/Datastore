@@ -1,6 +1,6 @@
 <?php
 
-namespace MusicAnt;
+namespace MusicAnt\Datastore;
 
 interface DataStore extends DataSource, DataDestination {
 

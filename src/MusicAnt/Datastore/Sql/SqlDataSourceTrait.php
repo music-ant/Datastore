@@ -1,9 +1,9 @@
 <?php
 
-namespace MusicAnt\Sql;
+namespace MusicAnt\Datastore\Sql;
 
-use MusicAnt\Record;
-use MusicAnt\SlowQueryException;
+use MusicAnt\Datastore\Record;
+use MusicAnt\Datastore\SlowQueryException;
 
 trait SqlDataSourceTrait {
 

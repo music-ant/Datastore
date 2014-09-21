@@ -1,9 +1,9 @@
 <?php
 
-namespace MusicAnt\Sql;
+namespace MusicAnt\Datastore\Sql;
 
 
-class SqlDataSource implements \MusicAnt\DataSource {
+class SqlDataSource implements \MusicAnt\Datastore\DataSource {
     use SqlDataSourceTrait;
 
     private $connection;

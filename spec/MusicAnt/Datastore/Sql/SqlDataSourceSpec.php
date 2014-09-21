@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\MusicAnt\Sql;
+namespace spec\MusicAnt\Datastore\Sql;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -12,12 +12,12 @@ class SqlDataSourceSpec extends ObjectBehavior
     {
         StringRecord::setFilterableAttributes(array('name'));
         $this->beConstructedWith($connection, 'Testtable',
-                '\spec\MusicAnt\Sql\StringRecord');
+                '\spec\MusicAnt\Datastore\Sql\StringRecord');
     }
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('MusicAnt\Sql\SqlDataSource');
+        $this->shouldHaveType('MusicAnt\Datastore\Sql\SqlDataSource');
     }
 
     function it_gets_a_single_record(\Pdo $connection, \PDOStatement $sqlResult)
@@ -28,7 +28,7 @@ class SqlDataSourceSpec extends ObjectBehavior
                    ->willReturn($sqlResult);
 
         $sqlResult->execute(array('id' => $primaryKey))->shouldBeCalled();
-        $sqlResult->fetchObject("\spec\MusicAnt\Sql\StringRecord")->willReturn($expectedObject);
+        $sqlResult->fetchObject("\spec\MusicAnt\Datastore\Sql\StringRecord")->willReturn($expectedObject);
 
         $this->get($primaryKey)->shouldReturn($expectedObject);
     }
@@ -39,7 +39,7 @@ class SqlDataSourceSpec extends ObjectBehavior
         $connection->prepare(Argument::any())
                    ->willReturn($sqlResult);
 
-        $this->shouldThrow("\MusicAnt\SlowQueryException")->duringFind(array('name'=>'foo'));
+        $this->shouldThrow("\MusicAnt\Datastore\SlowQueryException")->duringFind(array('name'=>'foo'));
     }
 
     function it_will_not_throw_an_Exception_when_search_for_a_nonfilterable_attribute_and_accept_slow_queries(\Pdo $connection, \PDOStatement $sqlResult) {
@@ -59,7 +59,7 @@ class SqlDataSourceSpec extends ObjectBehavior
 
         $sqlResult->execute(array())->shouldBeCalled();
 
-        $sqlResult->fetchObject("\spec\MusicAnt\Sql\StringRecord")->willReturn($expectedObjects);
+        $sqlResult->fetchObject("\spec\MusicAnt\Datastore\Sql\StringRecord")->willReturn($expectedObjects);
 
         $this->find(null)->shouldReturn($expectedObjects);
     }
@@ -72,7 +72,7 @@ class SqlDataSourceSpec extends ObjectBehavior
 
         $sqlResult->execute(array())->shouldBeCalled();
 
-        $sqlResult->fetchObject("\spec\MusicAnt\Sql\StringRecord")->willReturn($expectedObjects);
+        $sqlResult->fetchObject("\spec\MusicAnt\Datastore\Sql\StringRecord")->willReturn($expectedObjects);
 
         $this->find(array())->shouldReturn($expectedObjects);
     }
@@ -89,7 +89,7 @@ class SqlDataSourceSpec extends ObjectBehavior
                    ->willReturn($sqlResult);
 
         $sqlResult->execute(array('name' => $searchForName))->shouldBeCalled();
-        $sqlResult->fetchObject("\spec\MusicAnt\Sql\StringRecord")->willReturn($expectedObject);
+        $sqlResult->fetchObject("\spec\MusicAnt\Datastore\Sql\StringRecord")->willReturn($expectedObject);
 
         $this->find(array('name' => $searchForName))->shouldReturn($expectedObject);
     }
@@ -100,7 +100,7 @@ class SqlDataSourceSpec extends ObjectBehavior
         $connection->prepare(Argument::any())
                    ->willReturn($sqlResult);
 
-        $this->shouldThrow("\MusicAnt\SlowQueryException")->duringFindOrderedBy(array('name'=>'foo'), 'name');
+        $this->shouldThrow("\MusicAnt\Datastore\SlowQueryException")->duringFindOrderedBy(array('name'=>'foo'), 'name');
     }
 
     function it_findOrdered_is_the_same_like_find_with_null_as_OrderAttribute(\Pdo $connection, \PDOStatement $sqlResult) {
@@ -114,7 +114,7 @@ class SqlDataSourceSpec extends ObjectBehavior
                    ->willReturn($sqlResult);
 
         $sqlResult->execute(array('name' => $searchForName))->shouldBeCalled();
-        $sqlResult->fetchObject("\spec\MusicAnt\Sql\StringRecord")->willReturn($expectedObject);
+        $sqlResult->fetchObject("\spec\MusicAnt\Datastore\Sql\StringRecord")->willReturn($expectedObject);
 
         $this->findOrderedBy(array('name' => $searchForName), null)->shouldReturn($expectedObject);
     }
@@ -133,7 +133,7 @@ class SqlDataSourceSpec extends ObjectBehavior
                    ->willReturn($sqlResult);
 
         $sqlResult->execute(array('name' => $searchForName))->shouldBeCalled();
-        $sqlResult->fetchObject("\spec\MusicAnt\Sql\StringRecord")->willReturn($expectedObject);
+        $sqlResult->fetchObject("\spec\MusicAnt\Datastore\Sql\StringRecord")->willReturn($expectedObject);
 
         $this->findOrderedBy(array('name' => $searchForName), 'name')->shouldReturn($expectedObject);
     }
@@ -144,7 +144,7 @@ class SqlDataSourceSpec extends ObjectBehavior
     }
 }
 
-class StringRecord implements \MusicAnt\Record{
+class StringRecord implements \MusicAnt\Datastore\Record{
     public $id;
     public $name;
     public static  $filterableAttributes;
