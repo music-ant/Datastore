@@ -1,6 +1,6 @@
 <?php
 
-namespace MusicAnt\DataSource;
+namespace MusicAnt\Sql;
 
 
 class SqlDataSource implements \MusicAnt\DataSource {

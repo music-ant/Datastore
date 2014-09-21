@@ -1,6 +1,6 @@
 <?php
 
-namespace MusicAnt\DataSource;
+namespace MusicAnt\Sql;
 
 use MusicAnt\Record;
 use MusicAnt\SlowQueryException;

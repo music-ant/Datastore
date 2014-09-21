@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\MusicAnt\DataSource;
+namespace spec\MusicAnt\Sql;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -12,12 +12,12 @@ class SqlDataSourceSpec extends ObjectBehavior
     {
         StringRecord::setFilterableAttributes(array('name'));
         $this->beConstructedWith($connection, 'Testtable',
-                '\spec\MusicAnt\DataSource\StringRecord');
+                '\spec\MusicAnt\Sql\StringRecord');
     }
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('MusicAnt\DataSource\SqlDataSource');
+        $this->shouldHaveType('MusicAnt\Sql\SqlDataSource');
     }
 
     function it_gets_a_single_record(\Pdo $connection, \PDOStatement $sqlResult)
@@ -28,7 +28,7 @@ class SqlDataSourceSpec extends ObjectBehavior
                    ->willReturn($sqlResult);
 
         $sqlResult->execute(array('id' => $primaryKey))->shouldBeCalled();
-        $sqlResult->fetchObject("\spec\MusicAnt\DataSource\StringRecord")->willReturn($expectedObject);
+        $sqlResult->fetchObject("\spec\MusicAnt\Sql\StringRecord")->willReturn($expectedObject);
 
         $this->get($primaryKey)->shouldReturn($expectedObject);
     }
@@ -59,7 +59,7 @@ class SqlDataSourceSpec extends ObjectBehavior
 
         $sqlResult->execute(array())->shouldBeCalled();
 
-        $sqlResult->fetchObject("\spec\MusicAnt\DataSource\StringRecord")->willReturn($expectedObjects);
+        $sqlResult->fetchObject("\spec\MusicAnt\Sql\StringRecord")->willReturn($expectedObjects);
 
         $this->find(null)->shouldReturn($expectedObjects);
     }
@@ -72,7 +72,7 @@ class SqlDataSourceSpec extends ObjectBehavior
 
         $sqlResult->execute(array())->shouldBeCalled();
 
-        $sqlResult->fetchObject("\spec\MusicAnt\DataSource\StringRecord")->willReturn($expectedObjects);
+        $sqlResult->fetchObject("\spec\MusicAnt\Sql\StringRecord")->willReturn($expectedObjects);
 
         $this->find(array())->shouldReturn($expectedObjects);
     }
@@ -89,7 +89,7 @@ class SqlDataSourceSpec extends ObjectBehavior
                    ->willReturn($sqlResult);
 
         $sqlResult->execute(array('name' => $searchForName))->shouldBeCalled();
-        $sqlResult->fetchObject("\spec\MusicAnt\DataSource\StringRecord")->willReturn($expectedObject);
+        $sqlResult->fetchObject("\spec\MusicAnt\Sql\StringRecord")->willReturn($expectedObject);
 
         $this->find(array('name' => $searchForName))->shouldReturn($expectedObject);
     }
@@ -114,7 +114,7 @@ class SqlDataSourceSpec extends ObjectBehavior
                    ->willReturn($sqlResult);
 
         $sqlResult->execute(array('name' => $searchForName))->shouldBeCalled();
-        $sqlResult->fetchObject("\spec\MusicAnt\DataSource\StringRecord")->willReturn($expectedObject);
+        $sqlResult->fetchObject("\spec\MusicAnt\Sql\StringRecord")->willReturn($expectedObject);
 
         $this->findOrderedBy(array('name' => $searchForName), null)->shouldReturn($expectedObject);
     }
@@ -133,7 +133,7 @@ class SqlDataSourceSpec extends ObjectBehavior
                    ->willReturn($sqlResult);
 
         $sqlResult->execute(array('name' => $searchForName))->shouldBeCalled();
-        $sqlResult->fetchObject("\spec\MusicAnt\DataSource\StringRecord")->willReturn($expectedObject);
+        $sqlResult->fetchObject("\spec\MusicAnt\Sql\StringRecord")->willReturn($expectedObject);
 
         $this->findOrderedBy(array('name' => $searchForName), 'name')->shouldReturn($expectedObject);
     }
