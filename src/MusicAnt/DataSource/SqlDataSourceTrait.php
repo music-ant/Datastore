@@ -3,6 +3,7 @@
 namespace MusicAnt\DataSource;
 
 use MusicAnt\Record;
+use MusicAnt\SlowQueryException;
 
 trait SqlDataSourceTrait {
 
@@ -15,8 +16,17 @@ trait SqlDataSourceTrait {
         return $query->fetchObject($this->recordClass);
     }
 
-    public function find($searchKeys, $acceptSlowQueries = false) {
-        $searchKeys = $searchKeys ? $searchKeys : array();
+    public function find($searchFor, $acceptSlowQueries = false) {
+        $searchFor = $searchFor ? $searchFor : array();
+        $queryString = $this->createFindByQuery(array_keys($searchFor), $acceptSlowQueries) . ';';
+
+        $query = $this->connection->prepare($queryString);
+        $query->execute($searchFor);
+
+        return $query->fetchObject($this->recordClass);
+    }
+
+    private function createFindByQuery($searchKeys, $acceptSlowQueries = false) {
 
         $queryString = "SELECT * FROM {$this->table} ";
         if (count($searchKeys) > 0) {
@@ -27,26 +37,37 @@ trait SqlDataSourceTrait {
             $whereStmts = array_map(
                 function($column) use($filterableColumns, $acceptSlowQueries) {
                     if (!$acceptSlowQueries && !in_array($column, $filterableColumns)) {
-                        throw new \Exception("column {$column} is not optimized for Searching");
+                        throw new SlowQueryException("column {$column} is not optimized for Searching");
                     }
 
                     return "`$column` = :$column";
-                }, array_keys($searchKeys));
+                }, $searchKeys);
 
             $queryString .= join($whereStmts, ' AND ');
         }
-        $queryString .= ';';
 
-        $query = $this->connection->prepare($queryString);
-        $query->execute($searchKeys);
-
-        return $query->fetchObject($this->recordClass);
+        return $queryString;
     }
 
     public function findOrderedBy(
-        array $searchKeys, array $orderAttributes
+        array $searchFor, $orderAttribute, $ascending = true
     ) {
-        return array();
+        if ($orderAttribute == null) {
+            return $this->find($searchFor);
+        }
+
+        $recordClass = $this->recordClass;
+        if (!in_array($orderAttribute, $recordClass::getOrderableAttributes())) {
+            throw new SlowQueryException("column {$orderAttribute} is not optimized for Ordering");
+        }
+
+        $queryString = $this->createFindByQuery(array_keys($searchFor), false)
+                . " ORDER BY `{$orderAttribute}` ASC;";
+
+        $query = $this->connection->prepare($queryString);
+        $query->execute($searchFor);
+
+        return $query->fetchObject($this->recordClass);
     }
 
 }
