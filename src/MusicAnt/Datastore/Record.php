@@ -2,8 +2,6 @@
 
 namespace MusicAnt\Datastore;
 
-use string;
-
 interface Record {
 
     public function getId();
@@ -11,4 +9,6 @@ interface Record {
     public static function getFilterableAttributes();
 
     public static function getOrderableAttributes();
+
+    public static function getAttributes();
 }
