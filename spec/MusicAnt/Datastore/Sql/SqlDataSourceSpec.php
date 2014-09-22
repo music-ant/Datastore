@@ -141,7 +141,7 @@ class SqlDataSourceSpec extends ObjectBehavior
     }
 
     //maybe put this into behat test
-    function it_escapes_orderByAttribute() {
-
-    }
+//    function it_escapes_orderByAttribute() {
+//
+//    }
 }
