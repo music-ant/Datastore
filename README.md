@@ -19,3 +19,9 @@ Technical Specification
 =======================
 
 If you need further Information, please take a look [at](spec/)
+
+
+Testing
+=======
+
+If you want to test your Records or other Stuff inheriting abstract classes, you can take a look at [spec/MusicAnt/Datastore/Double](spec/MusicAnt/Datastore/Double)
