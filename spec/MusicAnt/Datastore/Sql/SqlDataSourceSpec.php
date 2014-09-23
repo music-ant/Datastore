@@ -139,9 +139,4 @@ class SqlDataSourceSpec extends ObjectBehavior
 
         $this->findOrderedBy(array('name' => $searchForName), 'name')->shouldReturn($expectedObject);
     }
-
-    //maybe put this into behat test
-//    function it_escapes_orderByAttribute() {
-//
-//    }
 }

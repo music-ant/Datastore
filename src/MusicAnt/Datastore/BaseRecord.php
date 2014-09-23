@@ -21,7 +21,6 @@ class BaseRecord implements Record
                 }
             }
         }
-
     }
 
     public function getId() {

@@ -16,6 +16,10 @@ class StringTestRecord implements \MusicAnt\Datastore\Record{
         return $this->id;
     }
 
+    public function getName() {
+        return $this->name;
+    }
+
     public static function setFilterableAttributes($attributes) {
         self::$filterableAttributes = $attributes;
     }
